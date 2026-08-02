@@ -17,7 +17,7 @@ if (typeof window === 'undefined') {
       });
       const adapter = new PrismaPg(pool);
       prismaClient = globalForPrisma.prisma ?? new PrismaClient({ adapter });
-      
+
       if (process.env.NODE_ENV !== 'production') {
         globalForPrisma.prisma = prismaClient;
       }
@@ -111,10 +111,11 @@ if (!globalForMock.mockPlaylists) {
 
 export const mockDb = {
   isMock: () => useMock,
-  
+
   async getSongs() {
     if (!useMock && prisma) {
       try {
+        console.log("here111..")
         return await prisma.song.findMany({
           orderBy: { createdAt: 'desc' },
         });
@@ -122,6 +123,7 @@ export const mockDb = {
         console.warn('Prisma getSongs failed, falling back to mock database', err);
       }
     }
+    console.log("here2...")
     return globalForMock.mockSongs || [];
   },
 
